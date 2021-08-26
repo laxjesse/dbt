@@ -44,6 +44,24 @@ def packages(registry_base_url=None):
 
 
 def package(name, registry_base_url=None):
+    response = _get_with_retries('api/v1/{}.json'.format(name), registry_base_url)
+    
+    if ('redirectnamespace' in response) or ('redirectname' in response):
+
+        if ('redirectnamespace' in response) and response['redirectnamespace'] is not None: 
+            use_namespace = response['redirectnamespace']
+        else: 
+            use_namespace = response['namespace']
+        
+        if ('redirectname' in response) and response['redirectname'] is not None:  
+            use_name = response['redirectname']
+        else: 
+            use_name = response['name']
+
+        new_nwo = use_namespace + "/" + use_name
+        logger.info('\n🚨 Package redirect notice: {} -->> {}'.format(name, new_nwo))
+        logger.info('🚨 Please update your packages.yml configuration to use {} instead.\n'.format(new_nwo))
+
     return _get_with_retries('api/v1/{}.json'.format(name), registry_base_url)
 
 
