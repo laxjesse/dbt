@@ -424,7 +424,6 @@ class TestHubPackage(unittest.TestCase):
         )
 
         c_pinned = c.resolved()
-        print(f"sung: {c_pinned.get_version_latest()}")
         self.assertEqual(c_pinned.package, 'fishtown-analytics-test/a')
         self.assertEqual(c_pinned.version, '0.1.3')
         self.assertEqual(c_pinned.get_version_latest(), '0.1.4a1')
