@@ -2,6 +2,7 @@ import functools
 import requests
 from dbt.utils import memoized, _connection_exception_retry as connection_exception_retry
 from dbt.logger import GLOBAL_LOGGER as logger
+from dbt import deprecations
 import os
 
 if os.getenv('DBT_PACKAGE_HUB_URL'):
@@ -59,10 +60,7 @@ def package(name, registry_base_url=None):
             use_name = response['name']
 
         new_nwo = use_namespace + "/" + use_name
-        logger.info('\n🚨 Package redirect notice: {} -->> {}'.format(name, new_nwo))
-        logger.info('''
-                🚨 Please update your packages.yml configuration to use {} instead.\n
-                '''.format(new_nwo))
+        deprecations.warn('package-redirect', old_name=name, new_name=new_nwo)
 
     return _get_with_retries('api/v1/{}.json'.format(name), registry_base_url)
 
