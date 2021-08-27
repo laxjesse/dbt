@@ -433,15 +433,14 @@ def resolve_to_specific_version(requested_range, available_versions):
     return max_version_string
 
 
-def filter_installable(
-        versions: List[str],
-        install_prerelease: bool
-) -> List[str]:
-    if install_prerelease:
-        return versions
+def filter_installable(versions: List[str], install_prerelease: bool) -> List[str]:
     installable = []
     for version_string in versions:
         version = VersionSpecifier.from_version_string(version_string)
-        if not version.prerelease:
-            installable.append(version_string)
-    return installable
+        if install_prerelease or not version.prerelease:
+            installable.append(version)
+    sorted_installable = sorted(installable)
+    sorted_installable_formatted = [
+        v.to_version_string(skip_matcher=True) for v in sorted_installable
+    ]
+    return sorted_installable_formatted

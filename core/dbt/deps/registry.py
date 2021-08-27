@@ -127,12 +127,11 @@ class RegistryUnpinnedPackage(
             raise DependencyException(new_msg) from e
 
         available = registry.get_available_versions(self.package)
-        available_latest = max(available)
-
         installable = semver.filter_installable(
             available,
             self.install_prerelease
         )
+        available_latest = installable[-1]
 
         # for now, pick a version and then recurse. later on,
         # we'll probably want to traverse multiple options
