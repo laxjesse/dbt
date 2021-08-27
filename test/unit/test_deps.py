@@ -388,19 +388,19 @@ class TestHubPackage(unittest.TestCase):
 
     def test_get_version_latest(self):
         a_contract = RegistryPackage(
-            package='fishtown-analytics-test/a',
+            package='dbt-labs-test/a',
             version='>0.1.0',
             install_prerelease=True
         )
         b_contract = RegistryPackage(
-            package='fishtown-analytics-test/a',
+            package='dbt-labs-test/a',
             version='<0.1.4'
         )
         a = RegistryUnpinnedPackage.from_contract(a_contract)
         b = RegistryUnpinnedPackage.from_contract(b_contract)
         c = a.incorporate(b)
 
-        self.assertEqual(c.package, 'fishtown-analytics-test/a')
+        self.assertEqual(c.package, 'dbt-labs-test/a')
         self.assertEqual(
             c.versions,
             [
@@ -424,7 +424,7 @@ class TestHubPackage(unittest.TestCase):
         )
 
         c_pinned = c.resolved()
-        self.assertEqual(c_pinned.package, 'fishtown-analytics-test/a')
+        self.assertEqual(c_pinned.package, 'dbt-labs-test/a')
         self.assertEqual(c_pinned.version, '0.1.3')
         self.assertEqual(c_pinned.get_version_latest(), '0.1.4a1')
         self.assertEqual(c_pinned.source_type(), 'hub')
