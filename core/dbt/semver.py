@@ -441,9 +441,6 @@ def filter_installable(
     for version_string in versions:
         version = VersionSpecifier.from_version_string(version_string)
         if install_prerelease or not version.prerelease:
-            installable.append(version)
+            installable.append(version_string)
     sorted_installable = sorted(installable)
-    sorted_installable_formatted = [
-        v.to_version_string(skip_matcher=True) for v in sorted_installable
-    ]
-    return sorted_installable_formatted
+    return sorted_installable
