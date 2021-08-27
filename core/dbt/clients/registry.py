@@ -62,7 +62,7 @@ def package(name, registry_base_url=None):
         new_nwo = use_namespace + "/" + use_name
         deprecations.warn('package-redirect', old_name=name, new_name=new_nwo)
 
-    return _get_with_retries('api/v1/{}.json'.format(name), registry_base_url)
+    return response
 
 
 def package_version(name, version, registry_base_url=None):
